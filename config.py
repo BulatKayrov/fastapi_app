@@ -3,7 +3,6 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     DB_NAME: str
-    # DB_URL: str = 'sqlite+aiosqlite:///db.sqlite3'
 
     @property
     def db_url(self) -> str:

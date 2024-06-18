@@ -1,19 +1,23 @@
 from fastapi import APIRouter, Depends, HTTPException
-
-from models import get_session
-from . import crud
-from .schemas import HotelResponse, HotelCreate
+from .schemas import HotelResponse, HotelCreate, HotelUpdate
+from .crud import HotelModel
 
 router = APIRouter(prefix="/hotel", tags=["hotel"])
 
 
 @router.get("/", response_model=list[HotelResponse])
-async def get_hotels(session=Depends(get_session)):
-    result = await crud.get_hotels(session=session)
-    return result
+async def get_hotels():
+    res = await HotelModel.find_all()
+    return res
 
 
 @router.post("/", response_model=HotelResponse)
-async def create_hotel(hotel: HotelCreate, session=Depends(get_session)):
-    result = await crud.create_hotel(session=session, hotel=hotel)
-    return result
+async def create_hotel(hotel: HotelCreate):
+    res = await HotelModel.create(**hotel.dict())
+    return res
+
+
+@router.put('/{pk}')
+async def update_hotel(pk: int, hotel: HotelUpdate):
+    res = await HotelModel.update(data=hotel, pk=pk, partial=True)
+    return res

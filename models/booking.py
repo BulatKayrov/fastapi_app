@@ -1,7 +1,8 @@
 from datetime import date
 from typing import TYPE_CHECKING
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import Computed, ForeignKey
+from sqlalchemy import ForeignKey
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from .base import BaseModel
 
@@ -13,11 +14,17 @@ if TYPE_CHECKING:
 class Booking(BaseModel):
     __tablename__ = 'bookings'
 
-    date_from: Mapped[date]
     date_to: Mapped[date]
+    date_from: Mapped[date]
     price: Mapped[int]
-    total_days: Mapped[int] = mapped_column(Computed('date_to - date_from'))
-    total_price: Mapped[int] = mapped_column(Computed('total_days * price'))
+
+    @hybrid_property
+    def total_days(self):
+        return (self.date_from - self.date_to).days
+
+    @hybrid_property
+    def total_price(self):
+        return self.total_days * self.price
 
     room_id: Mapped[int] = mapped_column(ForeignKey('rooms.id'))
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))

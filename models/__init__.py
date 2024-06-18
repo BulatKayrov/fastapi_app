@@ -5,6 +5,8 @@ __all__ = (
     'Room',
     'User',
     'get_session',
+    'Model',
+
 )
 
 from .base import BaseModel
@@ -13,3 +15,4 @@ from .hotel import Hotel
 from .room import Room
 from .user import User
 from .db_helper import get_session
+from .base_model import Model
