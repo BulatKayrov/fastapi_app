@@ -3,6 +3,9 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     DB_NAME: str
+    SECRET_KEY: str
+    ALGORITHM: str
+    JWT_COOKIE_NAME: str
 
     @property
     def db_url(self) -> str:

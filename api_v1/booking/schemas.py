@@ -18,7 +18,6 @@ class BookingCreateSchema(BaseModel):
     date_to: date
     price: int
     room_id: int
-    user_id: int
 
 
 class BookingResponseSchema(BookingBaseSchema):

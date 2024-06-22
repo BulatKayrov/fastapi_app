@@ -20,7 +20,7 @@ class Booking(BaseModel):
 
     @hybrid_property
     def total_days(self):
-        return (self.date_from - self.date_to).days
+        return (self.date_to - self.date_from).days
 
     @hybrid_property
     def total_price(self):
