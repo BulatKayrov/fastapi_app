@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException, status, Response
 
-from .schemas import UserRegisterSchema, UserLoginSchema
-from .crud import UserModel
-from .utils import get_password_hash, authenticate_user, create_access_token
 from config import settings
 from tasks.user_tasks import send_message
+from .crud import UserModel
+from .schemas import UserRegisterSchema, UserLoginSchema
+from .utils import get_password_hash, authenticate_user, create_access_token
 
 router = APIRouter(prefix="/auth", tags=["Authentication & Authorization"])
 

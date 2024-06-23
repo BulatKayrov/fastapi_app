@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_cache.decorator import cache
 
-from models import User
-from .schemas import HotelResponse, HotelCreate, HotelUpdate
-from .crud import HotelModel
 from api_v1.user.utils import get_current_user
-
-from asyncio import sleep
+from models import User
+from .crud import HotelModel
+from .schemas import HotelResponse, HotelCreate, HotelUpdate
 
 router = APIRouter(prefix="/hotel", tags=["hotel"])
 

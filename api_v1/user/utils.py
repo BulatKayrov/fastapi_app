@@ -7,7 +7,6 @@ from passlib.context import CryptContext
 from api_v1.user.crud import UserModel
 from config import settings
 
-
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 

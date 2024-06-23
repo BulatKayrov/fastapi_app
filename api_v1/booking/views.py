@@ -1,9 +1,8 @@
-from fastapi import APIRouter, Request, Depends
-
-from .crud import BookingModel
-from .schemas import BookingBaseSchema, BookingCreateSchema
+from fastapi import APIRouter, Depends
 
 from api_v1.user.utils import get_current_user
+from .crud import BookingModel
+from .schemas import BookingBaseSchema, BookingCreateSchema
 
 router = APIRouter(prefix='/booking', tags=['booking'])
 
