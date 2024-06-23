@@ -1,7 +1,7 @@
 import smtplib
 
-from celery_app import app
 from config import settings
+from tasks.celery_app import app
 from tasks.email_template import create_email
 
 
