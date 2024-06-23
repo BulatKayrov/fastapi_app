@@ -1,14 +1,18 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi_cache.decorator import cache
 
 from models import User
 from .schemas import HotelResponse, HotelCreate, HotelUpdate
 from .crud import HotelModel
 from api_v1.user.utils import get_current_user
 
+from asyncio import sleep
+
 router = APIRouter(prefix="/hotel", tags=["hotel"])
 
 
 @router.get("/", response_model=list[HotelResponse])
+@cache(expire=10)
 async def get_hotels():
     res = await HotelModel.find_all()
     return res

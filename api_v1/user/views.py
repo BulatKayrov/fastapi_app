@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Response, Request
+from fastapi import APIRouter, HTTPException, status, Response
 
 from .schemas import UserRegisterSchema, UserLoginSchema
 from .crud import UserModel
 from .utils import get_password_hash, authenticate_user, create_access_token
 from config import settings
+from tasks.user_tasks import send_message
 
 router = APIRouter(prefix="/auth", tags=["Authentication & Authorization"])
 
@@ -15,7 +16,8 @@ async def register_user(user: UserRegisterSchema):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
     password_hash = get_password_hash(user.password)
-    await UserModel.create(email=user.email, password=password_hash, is_admin=user.is_admin)
+    user = await UserModel.create(email=user.email, password=password_hash, is_admin=user.is_admin)
+    send_message.delay(str(user.email))
     return {'status': status.HTTP_201_CREATED}
 
 
