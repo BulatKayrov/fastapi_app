@@ -1,9 +1,10 @@
-from sqlalchemy import select
+from sqlalchemy import select, delete
 
 from .db_helper import async_session
 
 
 class Model:
+    """Base class for all models, basic methods implemented CRUD"""
     model = None
 
     @classmethod
@@ -42,4 +43,3 @@ class Model:
             await session.commit()
             await session.refresh(obj)
             return obj
-

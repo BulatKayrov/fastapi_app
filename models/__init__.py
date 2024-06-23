@@ -15,4 +15,4 @@ from .hotel import Hotel
 from .room import Room
 from .user import User
 from .db_helper import get_session
-from .base_model import Model
+from .base_crud import Model

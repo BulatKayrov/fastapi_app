@@ -15,9 +15,9 @@ class UserModel(Model):
             return result.scalars().first()
 
     @classmethod
-    async def create(cls, email: str, password: str):
+    async def create(cls, email: str, password: str, is_admin: bool = False):
         async with async_session() as session:
-            user = cls.model(email=email, hashed_password=password)
+            user = cls.model(email=email, hashed_password=password, is_admin=is_admin)
             session.add(user)
             await session.commit()
             return user

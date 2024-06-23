@@ -11,6 +11,7 @@ class BookingBaseSchema(BaseModel):
     total_price: int
     room_id: int
     user_id: int
+    id: int
 
 
 class BookingCreateSchema(BaseModel):

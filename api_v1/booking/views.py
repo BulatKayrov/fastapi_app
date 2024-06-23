@@ -19,3 +19,8 @@ async def create_booking(booking: BookingCreateSchema, user=Depends(get_current_
     data = booking.model_dump()
     data['user_id'] = user.id
     return await BookingModel.create(**data)
+
+
+@router.delete('/{booking_id}')
+async def delete_booking(booking_id: int, user=Depends(get_current_user)):
+    return await BookingModel.delete_booking(pk=booking_id, user_id=user.id)
