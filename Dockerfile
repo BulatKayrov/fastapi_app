@@ -2,22 +2,22 @@
 FROM python:3.10
 
 # Создаем директорию для вашего приложения
-RUN mkdir /booking
+RUN mkdir /app
 
 # Устанавливаем рабочую директорию
-WORKDIR /booking
+WORKDIR /app
 
 # Копируем файл зависимостей в контейнер
 COPY req.txt .
 
 # Устанавливаем зависимости
-RUN pip install --no-cache-dir -r req.txt
+RUN pip install -r req.txt
 
 # Копируем все файлы проекта в контейнер
 COPY . .
 
 # Делаем скрипты исполняемыми
-RUN chmod a+x /booking/docker/*.sh
+RUN chmod a+x /app/docker/*.sh
 
 # Определяем команду, чтобы начать приложение
-CMD ["gunicorn", "main:app", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind=0.0.0.0:8000"]
+#CMD gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000

@@ -8,8 +8,7 @@ class Settings(BaseSettings):
     """
 
     # Database
-    DB_HOST_DEV: str    # for development to docker compose
-    DB_HOST_LOCAL: str  # from docker image
+    DB_HOST: str
     DB_PORT: int
     POSTGRES_DB: str
     POSTGRES_USER: str
@@ -41,7 +40,7 @@ class Settings(BaseSettings):
         Dynamically build the database url based on the environment variables
         :return: database url
         """
-        return f'postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.DB_HOST_LOCAL}:{self.DB_PORT}/{self.POSTGRES_DB}'
+        return f'postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.POSTGRES_DB}'
 
     @property
     def redis_url(self) -> str:
@@ -49,7 +48,7 @@ class Settings(BaseSettings):
         Dynamically build the redis url based on the environment variables
         :return: redis url
         """
-        return f'redis://{self.REDIS_HOST}:{self.REDIS_PORT}'
+        return f'{self.BROKER_NAME}://{self.REDIS_HOST}:{self.REDIS_PORT}'
 
     @property
     def broker_url(self) -> str:
@@ -57,7 +56,7 @@ class Settings(BaseSettings):
         Dynamically build the broker url based on the environment variables
         :return: broker url
         """
-        return f'{self.BROKER_NAME}://{self.REDIS_HOST}:{self.REDIS_PORT}/0'
+        return f'{self.BROKER_NAME}://{self.REDIS_HOST}:{self.REDIS_PORT}'
 
     @property
     def backend_url(self) -> str:
@@ -65,10 +64,11 @@ class Settings(BaseSettings):
         Dynamically build the backend url based on the environment variables
         :return: backend url
         """
-        return f'{self.BROKER_NAME}://{self.REDIS_HOST}:{self.REDIS_PORT}/0'
+        return f'{self.BROKER_NAME}://{self.REDIS_HOST}:{self.REDIS_PORT}'
 
     class Config:
-        env_file = '.env'
+        # env_file = '.env'
+        env_file = '.env-dev'
 
 
 settings = Settings()

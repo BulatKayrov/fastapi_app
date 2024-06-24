@@ -1,36 +1,41 @@
 version: "3.9"
 services:
-  db:
-    image: postgres:15
-    container_name: booking_db
+  database:
+    image: postgres:15.1
+    container_name: booking_database
     env_file:
-      - .env-non-dev
+      - .env-dev
     ports:
       - "5432:5432"
 
   redis:
     image: redis:7
     container_name: booking_redis
+    ports:
+      - "6378:6378"
+    command: redis-server --port 6378
+    depends_on:
+      - database
 
   booking:
     build:
       context: .
     env_file:
-      - .env-non-dev
-    container_name: booking_app
-    depends_on:
-      - db
-      - redis
-    command: ./docker/app.sh
+      - .env-dev
+    container_name: booking_fastapi
+    command: docker/app.sh
     ports:
       - "5000:8000"
+    depends_on:
+      - database
+      - redis
 
   celery:
     build:
       context: .
-    container_name: celery
+    container_name: booking_celery
     depends_on:
-      - redis
+      - booking
     env_file:
-      - .env-non-dev
-    command: ./docker/celery.sh
+      - .env-dev
+    command: docker/celery.sh
